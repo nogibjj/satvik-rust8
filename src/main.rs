@@ -1,23 +1,33 @@
-use rand::Rng;
+use text_io::read;
+
+fn fibo(n: u32) -> u32 {
+    if (n == 0) | (n == 1) {
+        return 1;
+    }
+    let mut x: u32 = 1;
+    let mut y: u32 = 1;
+    let mut ii: u32 = 0;
+    loop {
+        if ii==n {
+            break
+        }
+        let temp: u32 = x;
+        x = y;
+        y += temp;
+        ii += 1;
+    }
+    y
+}
+fn run_samples() {
+    println!("{}", fibo(0));
+    println!("{}", fibo(1));
+    println!("{}", fibo(2));
+    println!("{}", fibo(5));
+    println!("{}", fibo(10));
+}
 
 fn main() {
-    let mut rng = rand::thread_rng();
-
-    let n1: u8 = rng.gen();
-    let n2: u16 = rng.gen();
-    println!("Random u8: {}", n1);
-    println!("Random u16: {}", n2);
-    println!("Random u32: {}", rng.gen::<u32>());
-    println!("Random i32: {}", rng.gen::<i32>());
-    println!("Random float: {}", rng.gen::<f64>());
-
-    let mut n3: u8 = rng.gen();
-    n3 = n3 % 6;
-    match n3 {
-        1 => println!("One!"),
-        // Match several values
-        3 | 5 => println!("This is odd"),
-        2 | 4 => println!("Very even very cool"),
-        0_u8 | 6_u8..=u8::MAX => println!("Very unexpected"),
-    }
+    run_samples();
+    let n: u32 = read!();
+    println!("your input: {}, output: {}", n, fibo(n));
 }
