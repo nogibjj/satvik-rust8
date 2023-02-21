@@ -1,1 +1,1 @@
-In this repository, we build a fibinacci number generator using looops
+In this repository, we build a permutation combination computer CLI
