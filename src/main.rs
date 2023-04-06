@@ -1,36 +1,42 @@
-use text_io::read;
-
-struct  FailU32 {
-    number: u32,
-    fail: bool,
+struct Node<T> {
+    value: T,
+    next: Option<Box<Node<T>>>,
 }
 
-fn pnc(x: u32, y: u32) -> FailU32 {
-    if y > x {
-        return FailU32{number:0, fail:true};
+impl<T> Node<T> {
+    fn new(value: T) -> Node<T> {
+        Node { value, next: None }
     }
-    let mut numerator: u32 = 1;
-    let mut denominator: u32 = 1;
-    let mut ii: u32 = 0;
-    loop {
-        if ii == (x-y){
-            break;
-        }
-        ii += 1;
-        numerator *= (x-y+ii-1);
-        denominator *= ii;
-    }
-    FailU32{number:numerator/denominator, fail:false}
 }
+
+pub struct LinkedList<T> {
+    head: Option<Box<Node<T>>>,
+}
+
+impl<T> Default for LinkedList<T> {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl<T> LinkedList<T> {
+    pub fn new() -> LinkedList<T> {
+        LinkedList { head: None }
+    }
+
+    pub fn is_empty(&self) -> bool {
+        self.head.is_none()
+    }
+    pub fn push_front(&mut self, value: T) {
+        let mut new_node = Node::new(value);
+        new_node.next = self.head.take();
+        self.head = Some(Box::new(new_node));
+    }
+
+}
+
 fn main() {
-    println!("What is the number of total elements?");
-    let x: u32 = read!();
-    println!("What is the number of elements to choose?");
-    let y: u32 = read!();
-    let answer: FailU32 = pnc(x,y);
-    if answer.fail {
-        println!("Improper input")
-    } else {
-        println!("The Answer is {}", answer.number);
-    }
+    let n0 = Node { value: 0, next: None };
+    let mut ll = LinkedList{head: Some(Box::new(n0))};
+    ll.push_front(42)
 }
